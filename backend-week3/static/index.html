@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daLove | Home</title>
+    <link rel="icon" type="image/png" href="img/logo.png" />
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <header>
+        <!--       navigatie-->
+        <nav>
+            <ul>
+                <li><a href="index.html"><img id="logo" src="img/logo.png" alt="logo daLove"></a></li>
+                <li><a href="detail">Inloggen</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <img id="logo-inschrijven" src="img/logo.png" alt="Logo daLove">
+        <h1>Inschrijving</h1>
+        <li id="inloggen"><a href="">Of inloggen</a></li>
+        <div>
+            <form action="detail">
+                <fieldset>
+                    <legend>Contactgegevens</legend>
+                    <label for="fname">Voornaam </label>
+                    <input type="text" name="firstname" placeholder="Je naam" maxlength="15" required>
+                    <label for="lname">Achternaam</label>
+                    <input type="text" name="lastname" placeholder="Je achternaam" maxlength="20" required>
+                    <label class="visibil" for="gender">Geslacht</label>
+                    <input class="gender" type="radio" name="gender" value="Male"> Man
+                    <input class="gender" type="radio" name="gender" value="Female">Vrouw
+                    <label class="visibil" for="gender">Opzoek naar..</label>
+                    <input class="gender" type="radio" name="gender-choice" value="Male"> Een man
+                    <input class="gender" type="radio" name="gender-choice" value="Female">Een Vrouw
+                    <label for="date">geboortedatum</label>
+                    <input type="date" name="date" min="01-01-2000" required>
+                   </fieldset>
+                <fieldset>
+                    <legend>Wachtwoord</legend>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" placeholder="Je e-mailadres" maxlength="50" required>
+                    <label for="psw">Wachtwoord</label>
+                    <input type="password" name="password" placeholder="Wachtwoord" minlength="7" required>
+                    <label for="psw-repeat">Wachtwoord herhalen</label>
+                    <input type="password" name="password-repeat" placeholder="Wachtwoord" minlength="7" required>
+                    
+                                      
+                </fieldset>
+                <input type="submit" value="Inschrijven">
+            </form>
+
+        </div>
+    </main>
+</body>
+
+</html>
