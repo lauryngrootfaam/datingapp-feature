@@ -11,6 +11,64 @@ const bodyParser = require('body-parser')
 //constanten ejs
 const ejs = require('ejs');
 
+//functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
+const listening = () => console.log('It is actually working..')
+
+//een functie die hij uitvoert zodra er een request wordt opgevraagd door de gebruiker (route)
+const onhome = (req, res) => res.render('index', {data: {userQuery: req.params.userQuery}})
+
+//functies pagina's server on request
+const inschrijven = (req, res) =>{
+    res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
+    res.render('inschrijven.ejs', {data: users});
+}
+
+const inloggen = (req, res) => {
+    res.sendFile(path.join(__dirname + '/view/inloggen.ejs'));
+    res.render('inloggen.ejs', {data: users});
+
+}
+
+const hoofdpagina = (req, res) => {
+    res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'));
+    res.render('hoofdpagina.ejs', {data: users});
+
+}
+
+
+//object met data (array) over verschillende gebruikers 
+//deze data moet uiteindelijk uit de database komen
+let users = [
+    { username: "lauryngr_",
+      firstname: "Lauryn",
+      age: 20,
+      description: "ik hou van ..."
+},
+
+    { username: "Jay24",
+      firstname: "Jay",
+      age: 24,
+      description: "ik hou van voetbal..."
+}
+]
+
+
+//functie die ervoor zorgt dat je data (users) toe kan voegen aan mijn array
+let addUser = (req, res) =>{
+ 
+let username = slug(req.body.username);
+
+ users.push({
+     username: username,
+     firstname: req.body.firstname,
+      age: req.body.age,
+      description: req.body.description
+
+ })
+ res.redirect("/hoofdpagina");
+}
+
+
 //express oprdrachten, routes
 express()
     .use(express.static('static'))
@@ -27,68 +85,8 @@ express()
     
 
 
-//functies
-//feedback voor mij zelf dar hij daadwerkelijk "luistert", ik vind dit super fijn
-function listening (){
-    console.log('It is actually working..');
-}
 
-//een functie die hij uitvoert zodra er een request wordt opgevraagd door de gebruiker (route)
-function onhome (req, res){
-    // res.send('index.html')
-    res.render('index', {data: {userQuery: req.params.userQuery}})
-}
-
-//object met data (array) over verschillende gebruikers 
-let users = [
-    { username: "lauryngr_",
-      firstname: "Lauryn",
-      age: 20,
-      description: "ik hou van ..."
-},
-
-    { username: "Jay24",
-      firstname: "Jay",
-      age: 24,
-      description: "ik hou van kip..."
-}
-]
-
-//functie inschrijvenpagina
-function inschrijven (req, res){
-    res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
-    res.render('inschrijven.ejs', {data: users});
-
-}
-
-function inloggen (req, res){
-    res.sendFile(path.join(__dirname + '/view/inloggen.ejs'));
-    res.render('inloggen.ejs', {data: users});
-
-}
-
-function hoofdpagina (req, res){
-    res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'));
-    res.render('hoofdpagina.ejs', {data: users});
-
-}
-
-
-//functie die ervoor zorgt dat je data (users) toe kan voegen aan mijn array
-function addUser(req, res){
-
-    
-    let username = slug(req.body.username);
-
- users.push({
-     username: username,
-     firstname: req.body.firstname,
-      age: req.body.age,
-      description: req.body.description
-
- })
- res.redirect("/hoofdpagina");
-}
+// verwijderde code (niet relevant)
 
 
 // function remove(req, res) {
@@ -106,4 +104,14 @@ function addUser(req, res){
 // //functie audio wordt uitgevoerd zodra de gebruiker /muziek toevoegt aan de url
 // function audio (req, res){
 //     res.sendFile(path.join(__dirname + '/static/liedje.mp3'));
+// }
+
+
+
+// es5 "normale" functies, ik heb ze omgeschreven in es6
+
+//functies
+//feedback voor mij zelf dar hij daadwerkelijk "luistert", ik vind dit super fijn
+// function listening (){
+//     console.log('It is actually working..');
 // }
