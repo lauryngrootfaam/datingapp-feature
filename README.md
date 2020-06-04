@@ -27,3 +27,8 @@ Ik heb de volgende packages gebruikt die je nodig zult hebben als je mijn projec
 * item1
 * item2
 
+De volgende packages zullen gebruik makelijker/beter maken, maar zijn niet per se nodig (dev. dependencies)
+
+* item1
+* item2
+
