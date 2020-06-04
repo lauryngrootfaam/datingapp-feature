@@ -16,9 +16,10 @@ _Wanneer ik een account aanmaak, wil ik zeker weten dat mijn persoonlijke gegeve
 
 ## Install guide
 ### Stap 1: Clone locally
-### Stap 2: Clone locally
-### Stap 3: Clone locally
-### Stap 4: Clone locally
+### Stap 2: Go to the right directory
+### Stap 3: npm install
+### Stap 4: npm init
+### Stap 5: install dependencies
 
 
 ## De gebruikte (NPM) Packages
