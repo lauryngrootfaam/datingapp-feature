@@ -16,12 +16,35 @@ _Wanneer ik een account aanmaak, wil ik zeker weten dat mijn persoonlijke gegeve
 
 ## Install guide
 ### Stap 1: Clone locally
+Clone het project locallt, door in de terminal de code git clone te gebruiken:
+
+`git clone https://github.com/lauryngrootfaam/datingapp-feature.git`
+
 ### Stap 2: Go to the right directory
-### Stap 3: npm install
-### Stap 4: npm init
-### Stap 5: install dependencies
-### Stap 6: node server.js
-### Stap 7: open port 8000
+Ga naar de juiste directory door in de terminal deze code te gebruiken:
+
+`cd dating-app-feature`
+
+Let wel op dat je in de juiste map zit (anders pas de directory aan door cd /(directory))
+
+### Stap 3: Installeer alle (dependencie) packages
+Dit doe je door de code npm install te gebruiken
+
+`npm install `
+
+### Stap 4: Start het project op 
+Je kunt de server opstarten met de code :
+` node server.js`
+
+of met de standaard code:
+
+`npm start`
+
+of met nodemon, zodat de server blijft draaien. Dit zou ik alleen gebruiken als je daadwerkelijk code aanpast
+
+`npm install -g nodemon`
+`nodemon server.js`
+
 
 
 ## De gebruikte (NPM) Packages
