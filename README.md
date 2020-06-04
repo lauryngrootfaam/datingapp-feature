@@ -22,4 +22,8 @@ _Wanneer ik een account aanmaak, wil ik zeker weten dat mijn persoonlijke gegeve
 
 
 ## De gebruikte (NPM) Packages
+Ik heb de volgende packages gebruikt die je nodig zult hebben als je mijn project locally goed wilt kunnen draaien (dependencies):
+
+* item1
+* item2
 
