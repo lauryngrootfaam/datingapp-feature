@@ -20,6 +20,8 @@ _Wanneer ik een account aanmaak, wil ik zeker weten dat mijn persoonlijke gegeve
 ### Stap 3: npm install
 ### Stap 4: npm init
 ### Stap 5: install dependencies
+### Stap 6: node server.js
+### Stap 7: open port 8000
 
 
 ## De gebruikte (NPM) Packages
