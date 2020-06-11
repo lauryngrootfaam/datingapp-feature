@@ -1,7 +1,7 @@
 {
   "name": "backend-week2",
   "version": "1.0.0",
-  "description": "package.json voor week2",
+  "description": "package.json",
   "main": "server.js",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -12,12 +12,7 @@
     "slug": "^3.2.0"
   },
   "devDependencies": {
-    "eslint": "^7.1.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1"
+    "nodemon": "^2.0.4"
   },
   "scripts": {
     "test": "run",
