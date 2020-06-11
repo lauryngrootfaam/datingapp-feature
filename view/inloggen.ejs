@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daLove | Inloggen</title>
+    <link rel="icon" type="image/png" href="img/logo.png" />
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <header>
+        <!-- het includen van een header -->
+        <%- include('partials/header'); %>
+    </header>
+    <main>
+        <a href="index.html"><img id="logo-inschrijven" src="img/logo.png" alt="Logo daLove"></a>
+        <h1>Login</h1>
+        <a class="inloggen" href="inschrijven">Nog geen account? Registreer hier!</a></li>
+        <section>
+            <form action="inschrijven">
+                <!-- username -->
+                <label for="user">Username </label>
+                <input type="text" name="username" placeholder="Je gebruikersnaam" maxlength="15" required>
+
+                 <!-- wachtwoord -->
+                 <label for="psw">Wachtwoord</label>
+                 <input type="password" name="password" placeholder="Wachtwoord" minlength="7" required>  
+                 <input type="submit" value="inloggen">
+            </form>
+
+        </section>
+    </main>
+</body>
+
+</html>
