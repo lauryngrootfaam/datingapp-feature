@@ -1,4 +1,3 @@
-
 // feedback dat de server aan het opstarten is
 console.log('Server is starting')
 
@@ -12,19 +11,94 @@ const bodyParser = require('body-parser')
 // constanten ejs
 const ejs = require('ejs')
 
+//database
+//beveiligde info storen in .env file
+require('dotenv').config()
+const mongodb = require('mongodb')
+//mongoDB url
+const mongodbUrl = process.env.DB_URL
+
 // express oprdrachten, routes
 express()
   .use(express.static('static'))
   .use(bodyParser.urlencoded({ extended: true }))
+
   .set('view engine', 'ejs')
   .set('views', 'view')
+  
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
   .get('/hoofdpagina', hoofdpagina)
-  .post('/hoofdpagina', addUser)
-// .delete('/:id', remove)
+
+  .post('/hoofdpagina', insertUserdata)
+
+
   .get('/inloggen', inloggen)
   .listen(8000, listening)
+
+// object met data (array) over verschillende gebruikers
+// deze data moet uiteindelijk uit de database komen
+const users = [
+  {
+    username: 'lauryngr_',
+    firstname: 'Lauryn',
+    age: 20,
+    description: 'ik hou van ...'
+  },
+
+  {
+    username: 'Jay24',
+    firstname: 'Jay',
+    age: 24,
+    description: 'ik hou van voetbal...'
+  }
+]
+
+
+//connecten met de database
+let db;
+mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err, client) => {
+  if (err) {
+    throw err;
+   
+  } else {
+    console.log('Database is connected');
+  }
+  db = client.db(process.env.DB_NAME);
+});
+
+
+//Het zoeken van een db collectie en een array daarin
+//Het pushen van de input van gebruikers naar database 
+function addUser(req, res){
+  const username = slug(req.body.username)
+
+  users.push({
+    username: username,
+    firstname: req.body.firstname,
+    age: req.body.age,
+    description: req.body.description
+
+  })
+  console.log(users)
+  res.redirect('/hoofdpagina')
+}
+
+
+
+function insertUserdata () {
+db.collection('usersinfo').insertOne({
+  
+  username: req.body.username,
+ firstname: req.body.firstname,
+   age: req.body.age,
+   description: req.body.description
+  
+}, done)
+}
+
+
+
 
 // functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
 function listening() {  
@@ -55,65 +129,3 @@ function hoofdpagina(req, res){
   res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'))
   res.render('hoofdpagina.ejs', { data: users })
 }
-
-
-
-
-// object met data (array) over verschillende gebruikers
-// deze data moet uiteindelijk uit de database komen
-const users = [
-  {
-    username: 'lauryngr_',
-    firstname: 'Lauryn',
-    age: 20,
-    description: 'ik hou van ...'
-  },
-
-  {
-    username: 'Jay24',
-    firstname: 'Jay',
-    age: 24,
-    description: 'ik hou van voetbal...'
-  }
-]
-
-// functie die ervoor zorgt dat je data (users) toe kan voegen aan mijn array
-function addUser(req, res){
-  const username = slug(req.body.username)
-
-  users.push({
-    username: username,
-    firstname: req.body.firstname,
-    age: req.body.age,
-    description: req.body.description
-
-  })
-  res.redirect('/hoofdpagina')
-}
-
-
-// verwijderde code (niet relevant)
-
-// function remove(req, res) {
-//     let id = req.params.id
-
-//     users = users.filter(function (users) {
-//       return users.id !== id
-
-//     })
-
-//     res.json({status: 'ok'})
-//   }
-
-// //functie audio wordt uitgevoerd zodra de gebruiker /muziek toevoegt aan de url
-// function audio (req, res){
-//     res.sendFile(path.join(__dirname + '/static/liedje.mp3'));
-// }
-
-// es5 "normale" functies, ik heb ze omgeschreven in es6
-
-// functies
-// feedback voor mij zelf dar hij daadwerkelijk "luistert", ik vind dit super fijn
-// function listening (){
-//     console.log('It is actually working..');
-// }
