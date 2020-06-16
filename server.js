@@ -84,22 +84,53 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
 //   res.redirect('/hoofdpagina')
 // }
 
-
+//bron :https://www.youtube.com/watch?v=voDummz1gO0&t=1742s
+// Deel van de code uit de les
 
 function insertUserdata (req, res) { 
-  // console.log('ben je hier?', req.body)
-db.collection('usersinfo').insertOne({
+  db.collection('usersinfo').insertOne({
   
   username: req.body.username,
   firstname: req.body.firstname,
   age: req.body.age,
   description: req.body.description
-  
 })
-res.render('hoofdpagina.ejs', { data: req.body })
+
+const allUsers = db.collection('insertUserdata').find().toArray(done)
+
+function done(err, data) {
+  if (err){
+      next(err)
+  }else{
+    res.render('hoofdpagina.ejs', { data: allUsers });
+      console.log(allUsers);
+  }
+  }
 }
 
 
+// db.collection('userdata').find({gender: "male"}).toArray(done)
+
+//     function done(err, data) {
+//         if (err){
+//             next(err)
+//         }else{
+//             res.render('list.ejs', {data: data, user: req.session.user})
+//             console.log(req.session.user)
+//         }
+//     }
+
+
+// let use = db.collection('usersinfo').find({}).toArray(done)}
+// function done(err, data) {
+//   if (err){
+//     // console.log(req.body)  next(err)
+//   }else{
+
+
+//het gebruiken van data 
+// let use = db.collection('usersinfo').find({})
+// console.log(use)
 
 // functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
 function listening() {  
@@ -112,22 +143,57 @@ function onhome (req, res){
   res.render('index', {data: {userQuery: req.params.userQuery}})
 }
 
-
 // functies pagina's server on request
 function inschrijven (req, res){
   res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
-  res.render('inschrijven.ejs', {data: users});
+  res.render('inschrijven.ejs');
 
 }
 
 function inloggen (req, res){
   res.sendFile(path.join(__dirname + '/view/inloggen.ejs'));
-  res.render('inloggen.ejs', {data: users});
+  res.render('inloggen.ejs');
 
 }
 
-function hoofdpagina(req, res){
-  console.log(users);
-  res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'))
-  res.render('hoofdpagina.ejs', { data: users })
-}
+function hoofdpagina(req, res, next){
+    //het laden van data uit de database om die vervolgens te tonen
+        res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'))
+        res.render('hoofdpagina.ejs', { data: allUsers })
+       // db.collection('profileInfo').findOne({'_id': mongo.ObjectID(req.session.user._id)
+  }
+  // console.log("hi", use)
+
+
+
+// function nietvanmij(req, res, next){
+//   // Find array in collection userdata and send that to list.ejs
+//   db.collection('userdata').find({gender: "male"}).toArray(done)
+
+//   function done(err, data) {
+//       if (err){
+//           next(err)
+//       }else{
+//           res.render('list.ejs', {data: data, user: req.session.user})
+//           console.log(req.session.user)
+//       }
+//   }
+
+// function insertUserdata (req, res, err) { 
+//   // console.log('ben je hier?', req.body)
+// db.collection('usersinfo').insertOne({
+  
+//   username: req.body.username,
+//   firstname: req.body.firstname,
+//   age: req.body.age,
+//   description: req.body.description
+  
+// })
+// if(!err){
+//   console.log("the data did go through")
+//   res.render('hoofdpagina.ejs', { data: req.body })
+// }
+// else {
+//   console.log("the data did not go through" + err)
+// }
+// }
