@@ -30,7 +30,7 @@ express()
   .get('/inschrijven', inschrijven)
   .get('/hoofdpagina', hoofdpagina)
 
-  .post('/hoofdpagina', insertUserdata)
+  .post('/hoofdpagina', updateProfile )
 
 
   .get('/inloggen', inloggen)
@@ -70,67 +70,41 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
 
 //Het zoeken van een db collectie en een array daarin
 //Het pushen van de input van gebruikers naar database 
-// function addUser(req, res){
-//   const username = slug(req.body.username)
-
-//   users.push({
-//     username: username,
-//     firstname: req.body.firstname,
-//     age: req.body.age,
-//     description: req.body.description
-
-//   })
-//   console.log(users)
-//   res.redirect('/hoofdpagina')
-// }
-
-//bron :https://www.youtube.com/watch?v=voDummz1gO0&t=1742s
-// Deel van de code uit de les
-
-function insertUserdata (req, res) { 
-  db.collection('usersinfo').insertOne({
+function hoofdpagina (req, res, next) {
   
-  username: req.body.username,
-  firstname: req.body.firstname,
-  age: req.body.age,
-  description: req.body.description
-})
+  db.collection('usersInfo').find().toArray(done)
 
-const allUsers = db.collection('insertUserdata').find().toArray(done)
+  function done(err, data) {
+    if (err) {
+      next (err)
+    } else {
+      res.render('hoofdpagina.ejs', {
+        data: data
+      })
 
-function done(err, data) {
-  if (err){
-      next(err)
-  }else{
-    res.render('hoofdpagina.ejs', { data: allUsers });
-      console.log(allUsers);
-  }
+    }
   }
 }
 
+function updateProfile (req, res, next) {
 
-// db.collection('userdata').find({gender: "male"}).toArray(done)
+  db.collection('usersInfo').insertOne({
+    username: req.body.username,
+  firstname: req.body.firstname,
+  age: req.body.age,
+  description: req.body.description
+  }, done)
 
-//     function done(err, data) {
-//         if (err){
-//             next(err)
-//         }else{
-//             res.render('list.ejs', {data: data, user: req.session.user})
-//             console.log(req.session.user)
-//         }
-//     }
+  function done(err, data) {
+    if (err) {
+      next(err)
+    } else {
+      console.log(req.body)
+      res.redirect('/hoofdpagina')
+    }
+  }
+}
 
-
-// let use = db.collection('usersinfo').find({}).toArray(done)}
-// function done(err, data) {
-//   if (err){
-//     // console.log(req.body)  next(err)
-//   }else{
-
-
-//het gebruiken van data 
-// let use = db.collection('usersinfo').find({})
-// console.log(use)
 
 // functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
 function listening() {  
@@ -155,45 +129,3 @@ function inloggen (req, res){
   res.render('inloggen.ejs');
 
 }
-
-function hoofdpagina(req, res, next){
-    //het laden van data uit de database om die vervolgens te tonen
-        res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'))
-        res.render('hoofdpagina.ejs', { data: allUsers })
-       // db.collection('profileInfo').findOne({'_id': mongo.ObjectID(req.session.user._id)
-  }
-  // console.log("hi", use)
-
-
-
-// function nietvanmij(req, res, next){
-//   // Find array in collection userdata and send that to list.ejs
-//   db.collection('userdata').find({gender: "male"}).toArray(done)
-
-//   function done(err, data) {
-//       if (err){
-//           next(err)
-//       }else{
-//           res.render('list.ejs', {data: data, user: req.session.user})
-//           console.log(req.session.user)
-//       }
-//   }
-
-// function insertUserdata (req, res, err) { 
-//   // console.log('ben je hier?', req.body)
-// db.collection('usersinfo').insertOne({
-  
-//   username: req.body.username,
-//   firstname: req.body.firstname,
-//   age: req.body.age,
-//   description: req.body.description
-  
-// })
-// if(!err){
-//   console.log("the data did go through")
-//   res.render('hoofdpagina.ejs', { data: req.body })
-// }
-// else {
-//   console.log("the data did not go through" + err)
-// }
-// }
