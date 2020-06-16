@@ -70,33 +70,34 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
 
 //Het zoeken van een db collectie en een array daarin
 //Het pushen van de input van gebruikers naar database 
-function addUser(req, res){
-  const username = slug(req.body.username)
+// function addUser(req, res){
+//   const username = slug(req.body.username)
 
-  users.push({
-    username: username,
-    firstname: req.body.firstname,
-    age: req.body.age,
-    description: req.body.description
+//   users.push({
+//     username: username,
+//     firstname: req.body.firstname,
+//     age: req.body.age,
+//     description: req.body.description
 
-  })
-  console.log(users)
-  res.redirect('/hoofdpagina')
-}
+//   })
+//   console.log(users)
+//   res.redirect('/hoofdpagina')
+// }
 
 
 
-function insertUserdata () {
+function insertUserdata (req, res) { 
+  // console.log('ben je hier?', req.body)
 db.collection('usersinfo').insertOne({
   
   username: req.body.username,
- firstname: req.body.firstname,
-   age: req.body.age,
-   description: req.body.description
+  firstname: req.body.firstname,
+  age: req.body.age,
+  description: req.body.description
   
-}, done)
+})
+res.render('hoofdpagina.ejs', { data: req.body })
 }
-
 
 
 
@@ -126,6 +127,7 @@ function inloggen (req, res){
 }
 
 function hoofdpagina(req, res){
+  console.log(users);
   res.sendFile(path.join(__dirname + '/view/hoofdpagina.ejs'))
   res.render('hoofdpagina.ejs', { data: users })
 }
