@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo.png" />
+    <link rel="stylesheet" href="styles/style.css">
     <title>daLove | Ingelogd</title>
 </head>
 <body>
     <header>
-    <%- include('partials/header'); %>
+        <nav>
+            <ul>
+                <li><a href="index.html"><img id="logo" src="img/logo.png" alt="logo daLove"></a></li>
+                        <li><a class="uitlogbutton" href="uitloggen">uitloggen</a></li>
+            </ul>
+        </nav>
 </header>
 <main>
     <h1>Welkom, <%= data[data.length -1].firstname %> !</h1>

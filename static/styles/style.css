@@ -164,3 +164,18 @@ div {
         border-radius: 10px;
         
 }
+
+.uitlogbutton{
+    background-color: #DA5552;
+    padding: 0.6em 1em;
+    text-decoration: none;
+    border: solid 2px black;
+    border-radius: 10px;
+    color: white;
+}
+
+.uitlogbutton:hover{
+    background-color:#c57978;
+    color: black;
+    border: solid 2px white;
+}

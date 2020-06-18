@@ -7,6 +7,7 @@ const app = express()
 const path = require('path')
 const slug = require('slug')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 
 // constanten ejs
 const ejs = require('ejs')
@@ -22,6 +23,11 @@ const mongodbUrl = process.env.DB_URL
 express()
   .use(express.static('static'))
   .use(bodyParser.urlencoded({ extended: true }))
+  .use(session({
+    resave: false,
+    saveUninitialized: true,
+    secret: process.env.SESSION_SECRET
+  }))
 
   .set('view engine', 'ejs')
   .set('views', 'view')
@@ -29,11 +35,10 @@ express()
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
   .get('/hoofdpagina', hoofdpagina)
-
-  .post('/hoofdpagina', updateProfile )
-
-
+  .post('/hoofdpagina', addProfile )
   .get('/inloggen', inloggen)
+  .get('/uitloggen', logout)
+
   .listen(8000, listening)
 
 // object met data (array) over verschillende gebruikers
@@ -69,42 +74,67 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
 
 
 //Het zoeken van een db collectie en een array daarin
-//Het pushen van de input van gebruikers naar database 
+
 function hoofdpagina (req, res, next) {
   
   db.collection('usersInfo').find().toArray(done)
 
-  function done(err, data) {
+  function done(err, users) {
     if (err) {
       next (err)
-    } else {
+      }    
+    else {
       res.render('hoofdpagina.ejs', {
-        data: data
+        data: users
       })
 
     }
   }
 }
 
-function updateProfile (req, res, next) {
+//Het pushen van de input van gebruikers naar database 
+//account maken
 
+function addProfile (req, res, next) {
+  //ik gebruik hier slug zodat ik username kan declaren buiten de insertOne functie en kan gebruiken voor session
+  const username = slug(req.body.username)
   db.collection('usersInfo').insertOne({
-    username: req.body.username,
+  username: username,
   firstname: req.body.firstname,
   age: req.body.age,
   description: req.body.description
   }, done)
 
-  function done(err, data) {
-    if (err) {
+  function done(err) {
+    if (err || !req.session.username) {
       next(err)
-    } else {
+      res.status(401).send('Credentials required')
+    } 
+    else {
       console.log(req.body)
+      req.session.user = {username : username}
+      console.log(req.session.user)
       res.redirect('/hoofdpagina')
     }
   }
 }
 
+function logout(req, res, next) {
+  res.sendFile(path.join(__dirname + '/view/uitloggen.ejs'));
+  res.render('uitloggen');
+
+  // req.session.destroy(function (err) {
+  //   if (err) {
+  //     next(err)
+  //   } else {
+  //     res.redirect('/uitloggen')
+  //       }
+  // })
+}
+
+ //  else if (!req.session.user){
+    //   res.status(401).send('Credentials required')
+    // }
 
 // functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
 function listening() {  
