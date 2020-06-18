@@ -25,7 +25,7 @@ express()
   .use(bodyParser.urlencoded({ extended: true }))
   .use(session({
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     secret: process.env.SESSION_SECRET
   }))
 
@@ -35,29 +35,30 @@ express()
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
   .get('/hoofdpagina', hoofdpagina)
-  .post('/hoofdpagina', addProfile )
+  .post('/hoofdpagina', addProfile)
   .get('/inloggen', inloggen)
   .get('/uitloggen', logout)
+  
 
   .listen(8000, listening)
 
 // object met data (array) over verschillende gebruikers
 // deze data moet uiteindelijk uit de database komen
-const users = [
-  {
-    username: 'lauryngr_',
-    firstname: 'Lauryn',
-    age: 20,
-    description: 'ik hou van ...'
-  },
+// const users = [
+//   {
+//     username: 'lauryngr_',
+//     firstname: 'Lauryn',
+//     age: 20,
+//     description: 'ik hou van ...'
+//   },
 
-  {
-    username: 'Jay24',
-    firstname: 'Jay',
-    age: 24,
-    description: 'ik hou van voetbal...'
-  }
-]
+//   {
+//     username: 'Jay24',
+//     firstname: 'Jay',
+//     age: 24,
+//     description: 'ik hou van voetbal...'
+//   }
+// ]
 
 
 //connecten met de database
@@ -79,57 +80,70 @@ function hoofdpagina (req, res, next) {
   
   db.collection('usersInfo').find().toArray(done)
 
-  function done(err, users) {
-    if (err) {
-      next (err)
-      }    
-    else {
-      res.render('hoofdpagina.ejs', {
-        data: users
-      })
 
-    }
-  }
+  function done (err, users){
+    if (err) {
+          next (err)
+          }  
+  else if (!req.session.user) {
+          res.status(401).send('i got this bitch fr')
+        return
+    
+        } 
+        else {
+          console.log("dont give up, your this close")
+          // res.render('hoofdpagina.ejs', {
+          //        data: users
+
+          //       })
+                res.render('hoofdpagina.ejs', { data: req.body })
+        }
+      }
+  
 }
 
 //Het pushen van de input van gebruikers naar database 
 //account maken
 
+//ik gebruik hier slug zodat ik username kan declaren buiten de insertOne functie en kan gebruiken voor session
+  // const username = slug(req.body.username)
+  //hulp gehad van Zoë
+
+
 function addProfile (req, res, next) {
   //ik gebruik hier slug zodat ik username kan declaren buiten de insertOne functie en kan gebruiken voor session
-  const username = slug(req.body.username)
+  // const username = slug(req.body.username)
   db.collection('usersInfo').insertOne({
-  username: username,
+  username: req.body.username,
   firstname: req.body.firstname,
   age: req.body.age,
   description: req.body.description
   }, done)
 
   function done(err) {
-    if (err || !req.session.username) {
+    if (err) {
       next(err)
-      res.status(401).send('Credentials required')
-    } 
+       } 
     else {
-      console.log(req.body)
-      req.session.user = {username : username}
-      console.log(req.session.user)
-      res.redirect('/hoofdpagina')
+        res.render('hoofdpagina.ejs', { data: req.body })
     }
   }
 }
 
-function logout(req, res, next) {
-  res.sendFile(path.join(__dirname + '/view/uitloggen.ejs'));
-  res.render('uitloggen');
 
-  // req.session.destroy(function (err) {
-  //   if (err) {
-  //     next(err)
-  //   } else {
-  //     res.redirect('/uitloggen')
-  //       }
-  // })
+//sessions
+// bron: https://www.youtube.com/watch?v=hKYjSgyCd60
+
+function logout(req, res, next) {
+  
+if(!req.session.viewCount) {
+req.session.viewCount = 1;
+}
+else {
+  req.session.viewCount += 1;
+}
+res.sendFile(path.join(__dirname + '/view/uitloggen.ejs'));
+res.render('uitloggen', {viewCount : req.session.viewCount})
 }
 
  //  else if (!req.session.user){
