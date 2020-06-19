@@ -17,12 +17,12 @@
         </nav>
 </header>
 <main>
-    <h1>Welkom,  !</h1>
+    <h1>Welkom, <%= data[data.length-1].firstname %> ! </h1>
 
     <section>
         <h2>hier komen de aangemaakte gebruikers</h2>
     
-        <% for (var i = 0; i< data.length; i++){ %>
+        <% for (var i = 0; i < data.length; i++){ %>
 
             <h3>
                 <%= data[i].firstname %>
