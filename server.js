@@ -74,12 +74,10 @@ function inschrijfData (req, res){
               next(err)
                } 
             else {
-                res.redirect('hoofdpagina')
+               res.redirect('hoofdpagina')
               }
           }
 }
-
-
 
 
 async function hoofdpagina(req, res) { //async function because promise (user_id) was pending
@@ -123,6 +121,7 @@ function deleteAccount(req, res) {
 		}
 	}
 }
+
 
 //sessions
 // bron: https://www.youtube.com/watch?v=hKYjSgyCd60
