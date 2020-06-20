@@ -23,6 +23,7 @@ const mongodbUrl = process.env.DB_URL
 express()
   .use(express.static('static'))
   .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json())
   .use(session({
     resave: false,
     saveUninitialized: false,
@@ -35,11 +36,13 @@ express()
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
   .get('/hoofdpagina', hoofdpagina)
-  .post('/hoofdpagina', addProfile)
   .get('/inloggen', inloggen)
-  .get('/uitloggen', logout)
+  .get('/account', account)
   
-
+  .post('/inschrijven', inschrijfData)
+  .post('/hoofdpagina', addProfile)
+  .post('/account', deleteAccount)
+ 
   .listen(8000, listening)
 
 
@@ -55,73 +58,86 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
   db = client.db(process.env.DB_NAME);
 });
 
-
-async function addProfile (req, res, next) {
-  // let allUsers = await db.collection('usersInfo').find().toArray()
-
+function inschrijfData (req, res){
   req.session.user = {
-    username: req.body.username,
-    firstname: req.body.firstname,
-    age: req.body.age,
-    description: req.body.description
-  }
+        username: req.body.username,
+        firstname: req.body.firstname,
+        age: req.body.age,
+        description: req.body.description
+      }
+    
+      db.collection('usersInfo').insertOne(
+      req.session.user, done)
 
-  db.collection('usersInfo').insertOne(
-  req.session.user
-  )
-
-  let allUsers = await db.collection('usersInfo').find().toArray()
-    done();
-
-  console.log('req session user @105 ', req.session.user)
-  function done(err) {
-    if (err) {
-      next(err)
-       } 
-    else {
-        res.render('hoofdpagina.ejs', { data: allUsers })
-    }
-  }
+     function done(err) {
+            if (err) {
+              next(err)
+               } 
+            else {
+                res.redirect('hoofdpagina')
+              }
+          }
 }
 
-async function hoofdpagina (req, res, next) {
-  let allUsers = await db.collection('usersInfo').find().toArray()
-  done();
-  // res.render('hoofdpagina.ejs', {data: allUsers})
-  // console.log('collection', await db.collection('usersInfo').find().toArray(done));
-// const allUsers = db.collection('usersInfo').find().toArray(done);
-  function done (err, users){
-    if (err) {
-          next (err)
-          } 
-  else if (!req.session.user){
-      res.status(401).send('Login first')
-    }
- 
-        else {
-          console.log("dont give up, your this close", req.session.user)
-              res.render('hoofdpagina.ejs', {data: allUsers})
-        }
-      }
-  }
 
-  
 
+
+async function hoofdpagina(req, res) { //async function because promise (user_id) was pending
+	let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
+	res.render('hoofdpagina', {data: currentUser});
+}
+
+async function account (req, res){
+  let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
+	res.render('account', {data: currentUser});
+}
+
+
+function addProfile(req, res) {
+	db.collection('usersInfo').updateOne({
+		'_id': mongodb.ObjectID(req.session.user._id)},
+	{$set: 
+			{username: req.body.username}
+	}
+	, check);
+
+	function check(err, data) {
+		if (err) {
+			next(err);
+		} else {
+			res.redirect('/account');
+		}
+	}
+}
+
+function deleteAccount(req, res) {
+	db.collection('usersInfo').deleteOne({
+		'_id': mongodb.ObjectID(req.session.user._id)
+	}, check);
+
+	function check(err, data) {
+		if (err) {
+			next(err);
+		} else {
+			res.redirect('/');
+		}
+	}
+}
 
 //sessions
 // bron: https://www.youtube.com/watch?v=hKYjSgyCd60
 
-function logout(req, res, next) {
+// function logout(req, res, next) {
   
-if(!req.session.viewCount) {
-req.session.viewCount = 1;
-}
-else {
-  req.session.viewCount += 1;
-}
-res.sendFile(path.join(__dirname + '/view/uitloggen.ejs'));
-res.render('uitloggen', {viewCount : req.session.viewCount})
-}
+// if(!req.session.viewCount) {
+// req.session.viewCount = 1;
+// }
+// else {
+//   req.session.viewCount += 1;
+// }
+// res.sendFile(path.join(__dirname + '/view/uitloggen.ejs'));
+// res.render('uitloggen', {viewCount : req.session.viewCount})
+// }
 
 // functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
 function listening() {  
@@ -144,5 +160,7 @@ function inschrijven (req, res){
 function inloggen (req, res){
   res.sendFile(path.join(__dirname + '/view/inloggen.ejs'));
   res.render('inloggen.ejs');
-
 }
+
+
+

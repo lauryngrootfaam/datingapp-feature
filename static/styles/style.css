@@ -14,8 +14,9 @@ body{
     height: 5%;
 }
 
-ul {
 
+
+ul {
     list-style: none;
     margin: 0;
     padding: 1em;
@@ -38,6 +39,20 @@ header{
     height: 8%;
     margin: 0px auto;
     margin-top: 1.5em;
+}
+
+#profiel {
+    width: 10%;
+    height: 10%
+
+}
+
+#account{
+    /* position: absolute; */
+/* : flex-end; */
+/* display: block;
+right: -100px;     */
+
 }
 
 h1{
@@ -178,4 +193,12 @@ div {
     background-color:#c57978;
     color: black;
     border: solid 2px white;
+}
+
+#profielTitel{
+    color: white;
+}
+
+#hoofdpaginaTitel {
+    color: black;
 }
