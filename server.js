@@ -42,6 +42,7 @@ express()
   
   .post('/inschrijven', inschrijfData)
   .post('/update', addProfileUpdate)
+  // .post('/hoofdpagina', match)
   .post('/account', deleteAccount)
  
   .listen(8000, listening)
@@ -90,29 +91,34 @@ async function updatePagina(req, res) { //async function because promise (user_i
 	let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
 	res.render('update', {data: currentUser});
 }
-// async function hoofdpagina (req, res, next) {
-//     let allUsers = await db.collection('usersInfo').find().toArray()
-    
-//     done();
+
+// async function hoofdpagina (req, res) {
+//   let allUsers = await db.collection('usersInfo').find().toArray()
+//   res.sendFile(path.join(__dirname + '/view/hoofdpa.ejs'));
+//   res.render('hoofdpagina.ejs', {data: allUsers})      
+//   }
+
+function hoofdpagina (req, res, next) {
   
-//      function done (err, users){
-//       if (err) {
-//             next (err)
-//             }
-//       else {
-//             res.render('hoofdpagina', {data: allUsers})
-           
-//           }
-//         }
-//     }
-  
+ let allUsers = db.collection('usersInfo').find().toArray()
+
+ done();
+
+  function done (err){
+    if (err) {
+          next (err)
+          }  
+         else {    
+                res.render('hoofdpagina.ejs', { data: allUsers})
+        }
+      }
+    }
 
 
 async function account (req, res){
   let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
 	res.render('account', {data: currentUser});
 }
-
 
 function addProfileUpdate(req, res) {
 	db.collection('usersInfo').updateOne({
@@ -126,15 +132,25 @@ function addProfileUpdate(req, res) {
 		if (err) {
 			next(err);
 		} else {
-			res.redirect('/hoofdpagina');
+			res.redirect('/account');
 		}
 	}
 }
 
-async function hoofdpagina (req, res, next) {
-  let allUsers = await db.collection('usersInfo').find().toArray()
-  res.render('hoofdpagina.ejs', {data: allUsers})      
-  }
+
+    // function match (req, res){
+    //   req.session.user = {
+    //         username: req.body.username,
+    //         firstname: req.body.firstname,
+    //         age: req.body.age,
+    //         description: req.body.description
+    //       }
+        
+    //       let = allUsers = db.collection('usersInfo').find().toArray()
+    //                res.redirect('account')
+    //               }
+        
+	
 
 function deleteAccount(req, res) {
 	db.collection('usersInfo').deleteOne({

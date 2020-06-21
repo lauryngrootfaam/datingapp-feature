@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>daLove | Ingelogd als <%= data.username %></title>
+    <title>daLove | Ingelogd als</title>
     </head>
 <body>
     <header>
         <nav>
             <ul>
                 <li><a href="index.html"><img id="logo" src="img/logo.png" alt="logo daLove"></a></li>
-                <li><a href="profiel" id="account"><img id="profiel" src="img/profile.png" alt=""></a></li>
+                <!-- <li><a href="profiel" id="account"><img id="profiel" src="img/profile.png" alt=""></a></li> -->
             </ul>
         </nav>
+        <form action="/hoofdpagina" method="POST">
+            <button><a href="account" id="account">account bekijken</a></button>
+        </form>
 
         <section>
             <h2 id="hoofdpaginaTitel">hier komen de aangemaakte gebruikers</h2>
