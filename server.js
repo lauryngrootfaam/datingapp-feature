@@ -58,6 +58,11 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
   db = client.db(process.env.DB_NAME);
 });
 
+function inschrijven (req, res){
+  res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
+  res.render('inschrijven.ejs');
+}
+
 function inschrijfData (req, res){
   req.session.user = {
         username: req.body.username,
@@ -150,11 +155,11 @@ function onhome (req, res){
 }
 
 // functies pagina's server on request
-function inschrijven (req, res){
-  res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
-  res.render('inschrijven.ejs');
+// function inschrijven (req, res){
+//   res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
+//   res.render('inschrijven.ejs');
 
-}
+// }
 
 function inloggen (req, res){
   res.sendFile(path.join(__dirname + '/view/inloggen.ejs'));
