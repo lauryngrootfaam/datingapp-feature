@@ -36,13 +36,11 @@ express()
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
   .get('/update', updatePagina)
-  .get('hoofdpagina', hoofdpagina)
   .get('/account', account)
   .get('/inloggen', inloggen)
   
   .post('/inschrijven', inschrijfData)
   .post('/update', addProfileUpdate)
-  // .post('/hoofdpagina', match)
   .post('/account', deleteAccount)
  
   .listen(8000, listening)
@@ -92,33 +90,24 @@ async function updatePagina(req, res) { //async function because promise (user_i
 	res.render('update', {data: currentUser});
 }
 
-// async function hoofdpagina (req, res) {
-//   let allUsers = await db.collection('usersInfo').find().toArray()
-//   res.sendFile(path.join(__dirname + '/view/hoofdpa.ejs'));
-//   res.render('hoofdpagina.ejs', {data: allUsers})      
-//   }
 
-function hoofdpagina (req, res, next) {
-  
- let allUsers = db.collection('usersInfo').find().toArray()
-
- done();
-
-  function done (err){
-    if (err) {
-          next (err)
-          }  
-         else {    
-                res.render('hoofdpagina.ejs', { data: allUsers})
-        }
-      }
-    }
-
+// async function hoofdpagina (req, res){
+//   let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
+// 	res.render('hoofdpagina', {data: currentUser});
+// }
 
 async function account (req, res){
   let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
-	res.render('account', {data: currentUser});
+  let allUsers = await db.collection('usersInfo').find().toArray() 
+  res.render('account', {data: currentUser, users: allUsers});
 }
+
+// async function hoofdpagina (res){
+//   let allUsers = await db.collection('usersInfo').find().toArray()
+// 	res.render('account', {users: allUsers});
+// }
+
+
 
 function addProfileUpdate(req, res) {
 	db.collection('usersInfo').updateOne({
@@ -132,25 +121,10 @@ function addProfileUpdate(req, res) {
 		if (err) {
 			next(err);
 		} else {
-			res.redirect('/account');
+			res.redirect('account');
 		}
 	}
 }
-
-
-    // function match (req, res){
-    //   req.session.user = {
-    //         username: req.body.username,
-    //         firstname: req.body.firstname,
-    //         age: req.body.age,
-    //         description: req.body.description
-    //       }
-        
-    //       let = allUsers = db.collection('usersInfo').find().toArray()
-    //                res.redirect('account')
-    //               }
-        
-	
 
 function deleteAccount(req, res) {
 	db.collection('usersInfo').deleteOne({
