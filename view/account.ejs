@@ -4,13 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo.png" />
-    <title>daLove | Inschrijven</title>
+    <title>daLove | Account</title>
 </head>
 <body>
     <header>
     <%- include('partials/header'); %>
 </header>
 <main>
+    <% for (var i = 0; i < users.length; i++){ %>
+        <h3>
+            <%= users[i].firstname %>
+        </h3>
+        <p> @<%= users[i].username %></p>
+        <p>
+            <%= users[i].age %>
+        </p>
+        <p>
+            <%= users[i].description %>
+        </p>
+        </p>
+       <% } %>
+
 <h1>hallo  <%= data.username %></h1>
 
 <p><%= data.username %></p>

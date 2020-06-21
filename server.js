@@ -35,12 +35,12 @@ express()
   
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
-  .get('/hoofdpagina', hoofdpagina)
-  .get('/inloggen', inloggen)
+  .get('/update', updatePagina)
   .get('/account', account)
+  .get('/inloggen', inloggen)
   
   .post('/inschrijven', inschrijfData)
-  .post('/hoofdpagina', addProfile)
+  .post('/update', addProfileUpdate)
   .post('/account', deleteAccount)
  
   .listen(8000, listening)
@@ -58,6 +58,11 @@ mongodb.MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopol
   db = client.db(process.env.DB_NAME);
 });
 
+function inschrijven (req, res){
+  res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
+  res.render('inschrijven.ejs');
+}
+
 function inschrijfData (req, res){
   req.session.user = {
         username: req.body.username,
@@ -74,24 +79,35 @@ function inschrijfData (req, res){
               next(err)
                } 
             else {
-               res.redirect('hoofdpagina')
+               res.redirect('update')
               }
           }
 }
 
 
-async function hoofdpagina(req, res) { //async function because promise (user_id) was pending
+async function updatePagina(req, res) { //async function because promise (user_id) was pending
 	let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
-	res.render('hoofdpagina', {data: currentUser});
+	res.render('update', {data: currentUser});
 }
+
+
+// async function hoofdpagina (req, res){
+//   let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
+// 	res.render('hoofdpagina', {data: currentUser});
+// }
 
 async function account (req, res){
   let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
-	res.render('account', {data: currentUser});
+  let allUsers = await db.collection('usersInfo').find().toArray() 
+  res.render('account', {data: currentUser, users: allUsers});
 }
 
+// async function hoofdpagina (res){
+//   let allUsers = await db.collection('usersInfo').find().toArray()
+// 	res.render('account', {users: allUsers});
+// }
 
-function addProfile(req, res) {
+function addProfileUpdate(req, res) {
 	db.collection('usersInfo').updateOne({
 		'_id': mongodb.ObjectID(req.session.user._id)},
 	{$set: 
@@ -103,7 +119,7 @@ function addProfile(req, res) {
 		if (err) {
 			next(err);
 		} else {
-			res.redirect('/account');
+			res.redirect('account');
 		}
 	}
 }
@@ -150,16 +166,13 @@ function onhome (req, res){
 }
 
 // functies pagina's server on request
-function inschrijven (req, res){
-  res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
-  res.render('inschrijven.ejs');
+// function inschrijven (req, res){
+//   res.sendFile(path.join(__dirname + '/view/inschrijven.ejs'));
+//   res.render('inschrijven.ejs');
 
-}
+// }
 
 function inloggen (req, res){
   res.sendFile(path.join(__dirname + '/view/inloggen.ejs'));
   res.render('inloggen.ejs');
 }
-
-
-
