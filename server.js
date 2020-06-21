@@ -36,8 +36,9 @@ express()
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
   .get('/update', updatePagina)
-  .get('/inloggen', inloggen)
+  .get('hoofdpagina', hoofdpagina)
   .get('/account', account)
+  .get('/inloggen', inloggen)
   
   .post('/inschrijven', inschrijfData)
   .post('/update', addProfileUpdate)
@@ -89,6 +90,23 @@ async function updatePagina(req, res) { //async function because promise (user_i
 	let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
 	res.render('update', {data: currentUser});
 }
+// async function hoofdpagina (req, res, next) {
+//     let allUsers = await db.collection('usersInfo').find().toArray()
+    
+//     done();
+  
+//      function done (err, users){
+//       if (err) {
+//             next (err)
+//             }
+//       else {
+//             res.render('hoofdpagina', {data: allUsers})
+           
+//           }
+//         }
+//     }
+  
+
 
 async function account (req, res){
   let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
@@ -108,10 +126,15 @@ function addProfileUpdate(req, res) {
 		if (err) {
 			next(err);
 		} else {
-			res.redirect('/account');
+			res.redirect('/hoofdpagina');
 		}
 	}
 }
+
+async function hoofdpagina (req, res, next) {
+  let allUsers = await db.collection('usersInfo').find().toArray()
+  res.render('hoofdpagina.ejs', {data: allUsers})      
+  }
 
 function deleteAccount(req, res) {
 	db.collection('usersInfo').deleteOne({

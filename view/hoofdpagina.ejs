@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>daLove | Ingelogd als <%= data.username %></title>
+    </head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html"><img id="logo" src="img/logo.png" alt="logo daLove"></a></li>
+                <li><a href="profiel" id="account"><img id="profiel" src="img/profile.png" alt=""></a></li>
+            </ul>
+        </nav>
+
+        <section>
+            <h2 id="hoofdpaginaTitel">hier komen de aangemaakte gebruikers</h2>
+    
+        <% for (var i = 0; i < data.length; i++){ %>
+
+            <h3>
+                <%= data[i].firstname %>
+            </h3>
+            <p> @<%= data[i].username %></p>
+            <p>
+                <%= data[i].age %>
+            </p>
+            <p>
+                <%= data[i].description %>
+            </p>
+    
+            </p>
+    
+           <% } %>
+
+           
+     
+    </section>
+
+</header>
+</body>
+</html>
