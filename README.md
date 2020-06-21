@@ -11,9 +11,9 @@ _Wanneer ik een account aanmaak, wil ik zeker weten dat mijn persoonlijke gegeve
 ## Features
 
 * Een account kunnen aanmaken
-* Een account kunnen aanpassen
+* Een account kunnen aanpassen (updaten)
 * Een account kunnen verwijderen
-* Kunnen inloggen met een bestaand account
+* Kunnen inloggen met een bestaand account (niet voor dit project beschikbaar)
 
 ## Install guide
 ### Stap 1: Clone locally
