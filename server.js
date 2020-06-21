@@ -107,8 +107,6 @@ async function account (req, res){
 // 	res.render('account', {users: allUsers});
 // }
 
-
-
 function addProfileUpdate(req, res) {
 	db.collection('usersInfo').updateOne({
 		'_id': mongodb.ObjectID(req.session.user._id)},
