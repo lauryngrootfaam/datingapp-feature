@@ -4,37 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="img/logo.png" />
+    <link rel="stylesheet" href="styles/style.css">
     <title>daLove | Account</title>
 </head>
 <body>
     <header>
-    <%- include('partials/header'); %>
+        <nav>
+            <ul>
+                <li><a href="index.html"><img id="logo" src="img/logo.png" alt="logo daLove"></a></li>
+                <li><a class="uitlogbutton" href="/">uitloggen</a></li>
+            </ul>
+        </nav>
+  
 </header>
 <main>
-    <% for (var i = 0; i < users.length; i++){ %>
-        <h3>
-            <%= users[i].firstname %>
-        </h3>
-        <p> @<%= users[i].username %></p>
-        <p>
-            <%= users[i].age %>
-        </p>
-        <p>
-            <%= users[i].description %>
-        </p>
-        </p>
-       <% } %>
+    
+    <h1 class="whitetxt">Hallo,  <%= data.username %></h1>
+    <h2 class="accData">U accountgegevens: </h2>
+    <p class="whitetxt">Username: @<%= data.username %></p>
+    <p class="whitetxt">Voornaam: <%= data.firstname %></p>
+    <p class="whitetxt">Leeftijd: <%= data.age %> jaar</p>
+    <p class="whitetxt">Beschrijving: <%= data.description %></p>
 
-<h1>hallo  <%= data.username %></h1>
-
-<p><%= data.username %></p>
-<p><%= data.firstname %></p>
-<p><%= data.age %></p>
-<p><%= data.description %></p>
 
 <form action="/account" method="POST">
-<button>account verwijderen</button>
+<button class="inlogbutton" id="accButton">Account verwijderen</button>
 </form>
+    <h2>Alle aangemelde gebruikers op daLove:</h2>
+    <% for (var i = 0; i < users.length-1; i++){ %>
+        <h3 class="blcktxt"><%= users[i].firstname %></h3>
+        <p class="blcktxt"> @<%= users[i].username %></p>
+        <p class="blcktxt"><%= users[i].age %></p>
+        <p class="blcktxt"><%= users[i].description %></p>
+       <% } %>
+
 </main>
 <footer></footer>
 </body>

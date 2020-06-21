@@ -17,9 +17,9 @@
 </header>
 <main>
     <h1>Weet je zeker dat de username <%= data.username %> correct is?</h1>
-    <p>Dit kan namelijk niet meer aangepast worden.</p>
+    <h2  class="accData">Dit kan namelijk niet meer aangepast worden.</h2>
 
-    <div>
+    <section>
         <form action="/update" method="POST">
             <fieldset>
                 <!-- username -->
@@ -29,7 +29,7 @@
                             <!-- sumbit button -->
                 <input type="submit" value="update">
         </form>
-    </div>
+    </section>
 
     
 </main>
