@@ -35,12 +35,12 @@ express()
   
   .get('/', onhome)
   .get('/inschrijven', inschrijven)
-  .get('/hoofdpagina', hoofdpagina)
+  .get('/update', updatePagina)
   .get('/inloggen', inloggen)
   .get('/account', account)
   
   .post('/inschrijven', inschrijfData)
-  .post('/hoofdpagina', addProfile)
+  .post('/update', addProfileUpdate)
   .post('/account', deleteAccount)
  
   .listen(8000, listening)
@@ -79,15 +79,15 @@ function inschrijfData (req, res){
               next(err)
                } 
             else {
-               res.redirect('hoofdpagina')
+               res.redirect('update')
               }
           }
 }
 
 
-async function hoofdpagina(req, res) { //async function because promise (user_id) was pending
+async function updatePagina(req, res) { //async function because promise (user_id) was pending
 	let currentUser = await db.collection('usersInfo').findOne({'_id': mongodb.ObjectID(req.session.user._id)}); //stored globally for re-use
-	res.render('hoofdpagina', {data: currentUser});
+	res.render('update', {data: currentUser});
 }
 
 async function account (req, res){
@@ -96,7 +96,7 @@ async function account (req, res){
 }
 
 
-function addProfile(req, res) {
+function addProfileUpdate(req, res) {
 	db.collection('usersInfo').updateOne({
 		'_id': mongodb.ObjectID(req.session.user._id)},
 	{$set: 
