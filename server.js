@@ -113,9 +113,9 @@ function addProfileUpdate(req, res) {
 	{$set: 
 			{username: req.body.username}
 	}
-	, check);
+	, done);
 
-	function check(err, data) {
+	function done(err) {
 		if (err) {
 			next(err);
 		} else {
