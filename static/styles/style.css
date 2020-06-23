@@ -195,10 +195,37 @@ div {
     border: solid 2px white;
 }
 
-#profielTitel{
+#profielTitel, .whitetxt{
     color: white;
+}
+
+.accData{
+color: #DF7373;
+font-size: 1em;
+}
+#accButton{
+    display: block;
+   margin: 0px auto;
+}
+
+#accSection section {
+ margin-bottom: 1em;
+background-color: black;
+}
+
+.whitetxt{
+ display: block;
+ text-align: center;
 }
 
 #hoofdpaginaTitel {
     color: black;
+}
+
+.blcktxt{
+
+display: block;
+text-align: center;
+color: white;
+
 }
