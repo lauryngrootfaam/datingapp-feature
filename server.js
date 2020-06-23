@@ -8,6 +8,11 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const mongodb = require('mongodb')
 
+
+//password hashing
+const bcrypt = require('bcrypt');
+var saltRounds = 10;
+
 // ejs requiren voor templating
 require('ejs')
 
@@ -66,25 +71,32 @@ function inschrijven (req, res){
 
 //hulp gehad van Roeland met de sessions (samen met Zoë)
 function inschrijfData (req, res){
+  
   req.session.user = {
         username: req.body.username,
         firstname: req.body.firstname,
         age: req.body.age,
-        description: req.body.description
+        description: req.body.description,
+        password : req.body.password
       }
-    //insertOne heb ik van de CRUD handleiding van mongodb
-      db.collection('usersInfo').insertOne(
-      req.session.user, done)
 
-     function done(err) {
-            if (err) {
-              next(err)
-               } 
-            else {
-               res.redirect('update')
-              }
-          }
-}
+      db.collection('usersInfo').insertOne(
+        req.session.user)
+
+
+      let password =  req.session.user.password;
+
+    //insertOne heb ik van de CRUD handleiding van mongodb
+    bcrypt.genSalt(saltRounds, function(err, salt){
+        bcrypt.hash(password, salt, function(err, hash) {
+          if(err) throw err;
+          req.session.user.password = hash;
+      
+        });
+    })
+    
+console.log("@98 password: ", req.body.password)
+res.redirect('update')}
 
 //Deze functie zorgt ervoor dat ik een specifiek gebruiker uit de database kan ophalen (sessions)
 // en deze data kan aanroepen in mijn ejs templating files
@@ -140,21 +152,6 @@ function deleteAccount(req, res) {
 		}
 	}
 }
-
-// research naar sessions
-// bron: https://www.youtube.com/watch?v=hKYjSgyCd60
-
-// function logout(req, res, next) {
-  
-// if(!req.session.viewCount) {
-// req.session.viewCount = 1;
-// }
-// else {
-//   req.session.viewCount += 1;
-// }
-// res.sendFile(path.join(__dirname + '/view/uitloggen.ejs'));
-// res.render('uitloggen', {viewCount : req.session.viewCount})
-// }
 
 // functie die feedback geeft voor mijzelf dat de server daadwerkelijk "luistert", ik vind dit super fijn.
 function listening() {  
