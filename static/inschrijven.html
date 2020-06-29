@@ -16,24 +16,23 @@
 
         <section class="form-section">
 
-            <form action="hoofdpagina.html" method="GET">
+            <form name="Regform" action="hoofdpagina.html" method="GET">
                 <div id="progressbar"></div>
-
-
                 <fieldset class="page">
                     <legend>Personal information</legend>
 
                     <!-- gebruikers voornaam -->
                     <label for="fname" class="not-visibil">Voornaam</label>
-                    <input type="text" name="firstname" placeholder="Je naam" maxlength="15" required>
+                    <input type="text" name="firstname"  id="name" placeholder="Je naam" maxlength="15" required>
+                    
 
                     <!-- gebruikers achternaam -->
                     <label for="lname" class="not-visibil">Achternaam</label>
-                    <input type="text" name="lastname" placeholder="Je achternaam" maxlength="20" required>
+                    <input type="text" name="lastname" id="lastname" placeholder="Je achternaam" maxlength="20" required>
 
                     <!-- geboortedatum/leeftijd gebruiker -->
                     <label for="date">Geboortedatum</label>
-                    <input type="date" name="date" min="01-01-2000" max="01-01-2002">
+                    <input type="date" id="age" name="date" min="01-01-2000" max="01-01-2002">
 
                     <a class="inloggen" href="inloggen.html">Heb je al een account? Login</a>
 
@@ -76,7 +75,7 @@
                     <legend>User description</legend>
                     <!-- gebuikers omschrijving -->
                     <label for="desc" class="not-visibil">Info over jezelf</label>
-                    <textarea name="description" placeholder="Omschrijf jezelf.." required></textarea>
+                    <textarea name="description" placeholder="Omschrijf jezelf.."></textarea>
 
 
                     <div class="form-buttons">
