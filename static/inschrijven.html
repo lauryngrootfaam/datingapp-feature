@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,84 +8,123 @@
     <link rel="stylesheet" href="styles/style.css">
     <title>daLove | Inschrijven</title>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.html"><img id="logo" src="img/logo.png" alt="logo daLove"></a></li>
-                <li><a class="inlogbutton" href="inloggen">Inloggen</a></li>
-            </ul>
-        </nav>
-</header>
-<main>
-    <!-- <h1>Welkom, <%= data[0].firstname %> !</h1> -->
-    <a href="index.html"><img id="logo-inschrijven" src="img/logo.png" alt="Logo daLove"></a>
-    <h1>Registreren</h1>
-    <a class="inloggen" href="inloggen.html">Heb je al een account? Login</a>
+    <main>
+        <a href="index.html"><img id="logo-inschrijven" src="img/logo.png" alt="Logo daLove"></a>
+        <h1>Registreren</h1>
 
-    <section>
-    <form action="hoofdpagina.html">
-        <fieldset>
-            <legend>Contactgegevens</legend>
+        <section class="form-section">
 
-            <!-- gebruikers naam -->
-            <label for="fname">Voornaam </label>
-            <input type="text" name="firstname" placeholder="Je naam" maxlength="15" required>
+            <form action="hoofdpagina.html" method="GET">
+                <div id="progressbar"></div>
 
-            <!-- gebuikers leeftijd -->
-            <label for="age">age</label>
-            <input type="text" name="age" placeholder="Je leeftijd" maxlength="3" required>
 
-            <!-- username -->
-            <label for="user">Username </label>
-            <input type="text" name="username" placeholder="Je gebruikersnaam" maxlength="15" required>
+                <fieldset class="page">
+                    <legend>Personal information</legend>
 
-            <!-- gebuikers omschrijving -->
-            <label for="desc">Info over jezelf</label>
-            <textarea name="description" placeholder="Type iets.." required></textarea>
+                    <!-- gebruikers voornaam -->
+                    <label for="fname" class="not-visibil">Voornaam</label>
+                    <input type="text" name="firstname" placeholder="Je naam" maxlength="15" required>
 
-            
-        </fieldset>
-            <fieldset>
-                <!-- Geslacht kiezen -->
-                <label class="visibil" for="gender">Geslacht</label>
-                <input class="gender" type="radio" name="gender" value="Male"> Man
-                <input class="gender" type="radio" name="gender" value="Female">Vrouw
+                    <!-- gebruikers achternaam -->
+                    <label for="lname" class="not-visibil">Achternaam</label>
+                    <input type="text" name="lastname" placeholder="Je achternaam" maxlength="20" required>
 
-                <!-- Voorkeurgeslacht partner -->
-                <label class="visibil" for="gender">Opzoek naar..</label>
-                <input class="gender" type="radio" name="gender-choice" value="Male"> Een man
-                <input class="gender" type="radio" name="gender-choice" value="Female">Een Vrouw
+                    <!-- geboortedatum/leeftijd gebruiker -->
+                    <label for="date">Geboortedatum</label>
+                    <input type="date" name="date" min="01-01-2000" max="01-01-2002">
 
-                <!-- geboortedatum/leeftijd gebruiker -->
-                <label for="date">geboortedatum</label>
-                <input type="date" name="date" min="01-01-2000" required>
+                    <a class="inloggen" href="inloggen.html">Heb je al een account? Login</a>
 
-            </fieldset>
-            <fieldset>
+                    <div class="form-buttons">
+                        <button type="button" class="next">NEXT</button>
+                    </div>
+                </fieldset>
 
-                <!-- email -->
-                <label for="email">Email</label>
-                <input type="email" name="email" placeholder="Je e-mailadres" maxlength="50" required>
+                <fieldset class="page">
+                    <legend class="title">Datingintrest</legend>
 
-                <!-- wachtwoord -->
-                <label for="psw">Wachtwoord</label>
-                <input type="password" name="password" placeholder="Wachtwoord" minlength="7" required>
+                    <!-- Geslacht kiezen -->
+                    <div class="gender">
+                        <p>Ik ben een ...</p>
+                        <input type="radio" id="female" name="gender" value="Vrouw">
+                        <label for="female">&#x26A2; Vrouw</label>
 
-                <!-- wachtwoord herhalen -->
-                <label for="psw-repeat">Wachtwoord herhalen</label>
-                <input type="password" name="password-repeat" placeholder="Wachtwoord" minlength="7" required>
-                
-                                  
-            </fieldset>
+                        <input type="radio" id="male" name="gender" value="man">
+                        <label for="male">&#x26A3; Man</label>
+                    </div>
 
-            <!-- sumbit button -->
-            <input type="submit" value="Inschrijven">
-    </form>
-</section>
+                    <div class="gender">
+                        <p>Ik ben opzoek naar een ...</p>
+                        <input type="radio" id="female-choise" name="gender-choice" value="Vrouw">
+                        <label for="female-choise">&#x26A2; Vrouw</label>
 
-</main>
-<footer></footer>
+                        <input type="radio" id="male-choise" name="gender-choice" value="man">
+                        <label for="male-choise">&#x26A3; Man</label>
+
+                        <div class="form-buttons">
+                            <button type="button" class="prev">BACK</button>
+                            <button type="button" class="next">NEXT</button>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+                <fieldset>
+                    <legend>User description</legend>
+                    <!-- gebuikers omschrijving -->
+                    <label for="desc" class="not-visibil">Info over jezelf</label>
+                    <textarea name="description" placeholder="Omschrijf jezelf.." required></textarea>
+
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev">BACK</button>
+                        <button type="button" class="next">NEXT</button>
+                    </div>
+
+                    </div>
+
+
+                </fieldset>
+
+
+                <fieldset class="page">
+                    <legend class="title">Accountgegevens</legend>
+                    <!-- email -->
+                    <label for="email" class="not-visibil">Email</label>
+                    <input type="email" name="email" placeholder="Je e-mailadres" maxlength="50" required>
+
+                    <!-- username -->
+                    <label for="user" class="not-visibil">Username</label>
+                    <input type="text" name="username" placeholder="Kies een gebruikersnaam" maxlength="15" required>
+
+                    <!-- wachtwoord -->
+                    <label for="psw" class="not-visibil">Wachtwoord</label>
+                    <input type="password" name="password" placeholder="Wachtwoord" minlength="7" required>
+
+                    <!-- wachtwoord herhalen -->
+                    <label for="psw-repeat" class="not-visibil">Wachtwoord herhalen</label>
+                    <input type="password" name="password-repeat" placeholder="Wachtwoord" minlength="7" required>
+
+
+                    <div class="form-buttons">
+                        <button type="button" class="prev">BACK</button>
+                        <button type="submit" class="next">SUBMIT</button>
+                    </div>
+
+                </fieldset>
+            </form>
+
+
+        </section>
+
+
+
+    </main>
+    <footer></footer>
 </body>
 <script src="index.js"></script>
+
 </html>
